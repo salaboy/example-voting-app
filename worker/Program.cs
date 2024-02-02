@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using Dapr.Client;
 using Newtonsoft.Json;
 using Npgsql;
 using StackExchange.Redis;
@@ -14,6 +15,13 @@ namespace Worker
     {
         public static int Main(string[] args)
         {
+            
+            var daprClient = new DaprClientBuilder().Build();
+            // TODO use the DaprClient to invoke the state API
+            // daprClient.SaveStateAsync()
+            // daprClient.GetStateAsync()
+            // OR use bindings
+            // daprClient.InvokeBindingAsync()
             try
             {
                 var pgsql = OpenDbConnection("Server=db;Username=postgres;Password=postgres;");
