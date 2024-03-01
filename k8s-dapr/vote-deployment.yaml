@@ -21,7 +21,7 @@ spec:
         app: vote
     spec:
       containers:
-      - image: salaboy/examplevotingapp_vote:java
+      - image: ghcr.io/salaboy/vote-java
         name: vote
         imagePullPolicy: Always
         ports:

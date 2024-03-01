@@ -20,6 +20,6 @@ spec:
         app: worker
     spec:
       containers:
-      - image: salaboy/examplevotingapp_worker:dotnet
+      - image: ghcr.io/salaboy/worker-dotnet
         name: worker
         imagePullPolicy: Always

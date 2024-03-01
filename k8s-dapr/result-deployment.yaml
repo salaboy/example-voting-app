@@ -21,7 +21,7 @@ spec:
         app: result
     spec:
       containers:
-      - image: salaboy/examplevotingapp_result:go
+      - image: ghcr.io/salaboy/result-go
         name: result
         imagePullPolicy: Always
         ports:
