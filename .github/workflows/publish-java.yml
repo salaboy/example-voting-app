@@ -50,8 +50,8 @@ jobs:
       - name: Compile and test
         run: |
           cd ${{ inputs.context }}
-          chmod +x gradlew
-          ./gradlew clean bootJar
+          chmod +x mvnw
+          ./mvnw package
       
       - name: Generate Docker meta information
         id: meta
