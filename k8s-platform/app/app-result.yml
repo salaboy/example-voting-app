@@ -11,6 +11,7 @@ spec:
     spec:
       containers:
       - image: ghcr.io/salaboy/result-go
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
         env:
