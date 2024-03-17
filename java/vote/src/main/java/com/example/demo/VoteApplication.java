@@ -53,8 +53,8 @@ class VoteController {
 	@GetMapping
 	String renderHTML(Model model, @CookieValue(value = "voter_id", required = false) String voterId) throws UnknownHostException {
 		logger.info("Processing GET request");
-		model.addAttribute("option_a", "Cats");
-		model.addAttribute("option_b", "Dogs");
+		model.addAttribute("option_a", "Code");
+		model.addAttribute("option_b", "YAML");
 		model.addAttribute("hostname", InetAddress.getLocalHost().getHostName());
 		model.addAttribute("vote", "");
 		model.addAttribute("user", voterId);
@@ -80,12 +80,12 @@ class VoteController {
 			Map<String, String> meta = Map.of("contentType", "application/json");
 			Vote vote = new Vote("vote", voterId, selectedOption, voterId);
 			logger.info("A new vote was recorded: " + vote + "into the state store:" + voteProperties.stateStore() );
-			
+
 			// There is a bug in the runtime that is blocking this to work with JSON Encoding: https://github.com/dapr/dapr/issues/7580
 			// List<TransactionalStateOperation<?>> operationList = new ArrayList<>();
 			// operationList.add(new TransactionalStateOperation<>(TransactionalStateOperation.OperationType.UPSERT,
 			// 		new State<>("voter-"+vote.voterId(), vote, null, meta, null)));
-	
+
             // //Using Dapr SDK to perform the state transactions
 			// client.executeStateTransaction(voteProperties.stateStore(), operationList).block();
 
@@ -95,19 +95,19 @@ class VoteController {
 			client.saveBulkState(request).block();
 
 			if (voteProperties.pubsub() != null && !voteProperties.pubsub().equals("")){
-				logger.info("Emitting vote event via code: " + vote + "into the pubsubs: " 
+				logger.info("Emitting vote event via code: " + vote + "into the pubsubs: "
 								+ voteProperties.pubsub() + " and topic: " + voteProperties.topic());
 				client.publishEvent(voteProperties.pubsub(), voteProperties.topic(), vote).block();
 			}
-			
+
 		} catch (Exception ex) {
 			logger.error("An error occurred while trying to save the vote.", ex);
 		}
 
 		response.addCookie(new Cookie("voter_id", voterId));
 
-		model.addAttribute("option_a", "Cats");
-		model.addAttribute("option_b", "Dogs");
+		model.addAttribute("option_a", "Code");
+		model.addAttribute("option_b", "YAML");
 		model.addAttribute("hostname", InetAddress.getLocalHost().getHostName());
 		model.addAttribute("vote", selectedOption);
 		model.addAttribute("user", voterId);
