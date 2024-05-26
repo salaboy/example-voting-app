@@ -58,13 +58,13 @@ jobs:
         run: |
           cd ./sb
           chmod +x mvnw
-          ./mvnw -DskipTests package
+          ./mvnw -DskipTests install
       
       - name: Package Java Model
         run: |
           cd ./java/model
           chmod +x mvnw
-          ./mvnw -DskipTests package
+          ./mvnw -DskipTests install
       
       - name: Compile and test
         run: |
