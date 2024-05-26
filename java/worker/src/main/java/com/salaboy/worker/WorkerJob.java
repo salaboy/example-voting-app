@@ -1,36 +1,32 @@
 package com.salaboy.worker;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.salaboy.model.Results;
+import com.salaboy.model.Vote;
+import io.diagrid.spring.core.keyvalue.DaprKeyValueTemplate;
 import org.springframework.data.keyvalue.core.query.KeyValueQuery;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.salaboy.model.Results;
-import com.salaboy.model.Vote;
-
-import io.diagrid.springboot.dapr.core.DaprKeyValueTemplate;
-
 @Component
 public class WorkerJob {
 
-	@Autowired
-	private DaprKeyValueTemplate votesKeyValueTemplate;
+	private final DaprKeyValueTemplate keyValueTemplate;
 
-	@Autowired
-	private DaprKeyValueTemplate resultsKeyValueTemplate;
+	public WorkerJob(DaprKeyValueTemplate keyValueTemplate) {
+		this.keyValueTemplate = keyValueTemplate;
+	}
 
-    @Scheduled(fixedDelay = 2000)
+	@Scheduled(fixedDelay = 2000)
 	public void work() {
 		System.out.println("Fetching votes..");
 
 		KeyValueQuery<String> keyValueQuery = new KeyValueQuery<String>("'type' == 'vote'");
 
-		Iterable<Vote> votes = votesKeyValueTemplate.find(keyValueQuery, Vote.class);
-		
+		Iterable<Vote> votes = keyValueTemplate.find(keyValueQuery, Vote.class);
 
 		int optionA = 0;
 		int optionB = 0;
-		for(Vote vote : votes){
+		for (Vote vote : votes) {
 			if(vote.getOption().equals("a")){
 				optionA++;
 			}
@@ -42,9 +38,7 @@ public class WorkerJob {
 		System.out.println("Storing results: a: "+ optionA + " - b: "+ optionB);
 		// Count results and update using KeyValueTemplate
 		Results results = new Results("results",optionA, optionB);
-		resultsKeyValueTemplate.update(results);
-
+		keyValueTemplate.update(results);
 	}
-
 
 }

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.3</version>
+		<version>3.3.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.salaboy</groupId>
@@ -14,7 +14,8 @@
 	<name>result</name>
 	<description>Result Service</description>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>21</java.version>
+		<daprSpringBoot.version>0.11.0-SNAPSHOT</daprSpringBoot.version>
 		<testcontainers-dapr.version>0.10.14</testcontainers-dapr.version>
 	</properties>
 	<dependencies>
@@ -35,40 +36,38 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>io.diagrid.dapr</groupId>
 			<artifactId>dapr-client-spring-boot-starter</artifactId>
-			<version>0.10.7</version>
+			<version>${daprSpringBoot.version}</version>
 		</dependency>
-		<dependency>
-            <groupId>io.diagrid.dapr</groupId>
-            <artifactId>testcontainers-dapr</artifactId>
-            <version>${testcontainers-dapr.version}</version>
-			<scope>test</scope>
-        </dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-testcontainers</artifactId>
-            <scope>test</scope>
-		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.awaitility</groupId>
-			<artifactId>awaitility</artifactId>
-			<version>3.1.6</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-testcontainers</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-            <groupId>com.redis.testcontainers</groupId>
-            <artifactId>testcontainers-redis-junit</artifactId>
-            <version>1.6.4</version>
-            <scope>test</scope>
-        </dependency>	
+			<groupId>org.testcontainers</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.diagrid.dapr</groupId>
+			<artifactId>testcontainers-dapr</artifactId>
+			<version>${testcontainers-dapr.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.redis.testcontainers</groupId>
+			<artifactId>testcontainers-redis-junit</artifactId>
+			<version>1.6.4</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

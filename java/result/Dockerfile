@@ -2,7 +2,7 @@ FROM docker.io/library/eclipse-temurin:21-jdk-jammy AS builder
 WORKDIR workspace
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
-RUN java -Djarmode=layertools -jar app.jar extract
+RUN java -Djarmode=tools -jar app.jar extract
 
 FROM docker.io/library/eclipse-temurin:21-jre-jammy
 RUN useradd spring

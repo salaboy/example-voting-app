@@ -1,21 +1,14 @@
 spring:
   application:
-    name: vote
+    name: worker
 
 dapr:
   statestore:
     name: kvstore
-    query-index: QueryIndex
-  pubsub:
-    name: pubsub
+    query-index: MyQueryIndex
 
 management:
   endpoints:
     web:
       exposure:
         include: health,prometheus
-
-vote:
-  state-store: votes-statestore
-  pubsub: pubsub
-  topic: votes
