@@ -47,6 +47,19 @@ jobs:
           java-version: 21
           distribution: temurin
       
+      - name: Check out source code
+        uses: actions/checkout@v4
+        with:
+          repository: diagridio/dapr-spring-boot-starter
+          branch: new-spring-boot
+          path: './sb'
+      
+      - name: Local Publish Dapr Spring Boot Starter
+        run: |
+          cd ./sb
+          chmod +x mvnw
+          ./mvnw -DskipTests package
+      
       - name: Compile and test
         run: |
           cd ${{ inputs.context }}

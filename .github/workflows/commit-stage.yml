@@ -39,6 +39,8 @@ jobs:
         project: [
           {context: java/echo, image: echo-java},
           {context: java/vote, image: vote-java},
+          {context: java/result, image: result-java},
+          {context: java/worker, image: worker-java},
         ]
     with:
       context: ${{ matrix.project.context }}
