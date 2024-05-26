@@ -1,5 +1,8 @@
 package com.salaboy.vote;
 
+import com.salaboy.model.Vote;
+import io.diagrid.spring.core.keyvalue.DaprKeyValueTemplate;
+import io.diagrid.spring.core.messaging.DaprMessagingTemplate;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -8,25 +11,18 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import io.diagrid.springboot.dapr.core.DaprKeyValueTemplate;
-import io.diagrid.springboot.dapr.core.DaprMessagingTemplate;
-
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.UUID;
-import com.salaboy.model.Vote;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
-@ComponentScan("io.dapr.springboot")
-@ComponentScan("com.salaboy.vote")
 public class VoteApplication {
 
 	public static void main(String[] args) {
@@ -36,7 +32,7 @@ public class VoteApplication {
 }
 
 @ConfigurationProperties(prefix = "vote")
-record VoteProperties(String stateStore, String pubsub, String topic){}
+record VoteProperties(String stateStore, String pubsub, String topic) {}
 
 @Controller
 @RequestMapping("/")
@@ -73,7 +69,6 @@ class VoteController {
 				@CookieValue(value = "voter_id", required = false) String voterId,
 				HttpServletResponse response
 	) {
-
 		logger.info("Processing POST request");
 
 		if (!StringUtils.hasText(voterId)){
@@ -92,7 +87,6 @@ class VoteController {
 			System.out.println("Emitting Cloud Event to Pubsub: " + voteProperties.pubsub() + "and topic: " + voteProperties.topic());
 			messagingTemplate.send(voteProperties.topic(), vote);
 		}
-
 
 		// try (DaprClient client = new DaprClientBuilder().build()) {
 		// 	Map<String, String> meta = Map.of("contentType", "application/json");
@@ -138,6 +132,5 @@ class VoteController {
 		model.addAttribute("user", voterId);
 		return "index.html";
 	}
-
 
 }

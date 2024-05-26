@@ -1,39 +1,35 @@
 package com.salaboy.vote;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
-
+import com.salaboy.model.Vote;
+import io.dapr.client.domain.CloudEvent;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import io.dapr.client.domain.CloudEvent;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 
-@SpringBootTest(classes={DaprTestConfig.class}, webEnvironment = WebEnvironment.DEFINED_PORT)
-@ComponentScan("com.salaboy.vote")
-@ComponentScan("io.dapr.springboot")
+import static org.assertj.core.api.Assertions.assertThat;
+
+@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 @TestPropertySource(properties = {
     "vote.pubsub=pubsub",
 	"vote.topic=newVote"
 })
-class VoteApplicationTests {
+class VoteApplicationTests extends BaseIntegrationTest {
 
 	@Autowired
 	private VoteController voteController;
 
 	@Autowired
-	private AppRestController appRestController;
+	private TestRestController testRestController;
 
 	@Test
     public void testVote() throws InterruptedException {
@@ -44,28 +40,24 @@ class VoteApplicationTests {
 		String userId = UUID.randomUUID().toString().substring(0, 10);
 		voteController.vote(extendedModelMap, formData, userId , response);
 
-		assertEquals(1, response.getCookies().length);
+		assertThat(response.getCookies().length).isEqualTo(1);
 
 		Thread.sleep(3000);
 
-		List<CloudEvent> events = appRestController.getEvents();
+		List<CloudEvent<Vote>> events = testRestController.getEvents();
 
-		assertTrue(!events.isEmpty());
-		assertEquals(1, events.size());
+		assertThat(!events.isEmpty()).isTrue();
+		assertThat(events.size()).isEqualTo(1);
 
 		formData.put("vote", Collections.singletonList("b"));
 		voteController.vote(extendedModelMap, formData, userId, response);
 
 		Thread.sleep(3000);
 		
-		events = appRestController.getEvents();
+		events = testRestController.getEvents();
 
-		assertTrue(!events.isEmpty());
-		assertEquals(2, events.size());
-
+		assertThat(!events.isEmpty()).isTrue();
+		assertThat(events.size()).isEqualTo(2);
 	}
-
-
-	
 
 }

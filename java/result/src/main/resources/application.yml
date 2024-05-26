@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: result
+dapr:
+  statestore:
+    name: kvstore
+    query-index: MyQueryIndex
