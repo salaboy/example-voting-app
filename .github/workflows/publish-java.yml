@@ -54,9 +54,15 @@ jobs:
           branch: new-spring-boot
           path: './sb'
       
-      - name: Local Publish Dapr Spring Boot Starter
+      - name: Package Dapr Spring Boot Starter
         run: |
           cd ./sb
+          chmod +x mvnw
+          ./mvnw -DskipTests package
+      
+      - name: Package Java Model
+        run: |
+          cd ./java/model
           chmod +x mvnw
           ./mvnw -DskipTests package
       
