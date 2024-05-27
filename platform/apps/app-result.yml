@@ -10,7 +10,7 @@ spec:
         autoscaling.knative.dev/min-scale: "1"
     spec:
       containers:
-      - image: docker.io/salaboy/result-java:1.0.0
+      - image: docker.io/salaboy/result-java:1.0.0-amd
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
@@ -20,4 +20,4 @@ spec:
         - name: DAPR_GRPC_ENDPOINT
           value: http://result-dapr.default.svc.cluster.local:50001
         - name: DAPR_STATESTORE_NAME
-          value: results-statestore 
+          value: results-statestore
