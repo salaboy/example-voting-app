@@ -19,7 +19,7 @@ public class FetchResultsJob {
 		this.keyValueTemplate = keyValueTemplate;
 	}
 
-	@Scheduled(fixedDelay = 2000)
+	@Scheduled(fixedDelay = 1000)
 	public void fetchResults() {
 		Results results = keyValueTemplate.findById("results", Results.class).get();
 

@@ -20,22 +20,25 @@ import static org.mockito.Mockito.verify;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = {
-    "dapr.statestore.query-index=VotesQueryIndex",
+    "worker.vote.queryIndex=VotesQueryIndex"
 })
 public class WorkerTest extends BaseIntegrationTest {
     
     @Autowired
-    DaprKeyValueTemplate keyValueTemplate;
+    DaprKeyValueTemplate voteKeyValueTemplate;
+
+    @Autowired
+    DaprKeyValueTemplate resultsKeyValueTemplate;
 
     @SpyBean
     WorkerJob workerJob;
 
     @Test
     public void testWorker() throws InterruptedException {
-        Vote voteA = keyValueTemplate.insert(new Vote("vote", "123-123", "a", "123-123" ));
+        Vote voteA = resultsKeyValueTemplate.insert(new Vote("vote", "123-123", "a", "123-123" ));
         assertThat(voteA).isNotNull();
         System.out.println("Voted A");
-        Vote voteB = keyValueTemplate.insert(new Vote("vote", "456-456", "b", "456-456"));
+        Vote voteB = voteKeyValueTemplate.insert(new Vote("vote", "456-456", "b", "456-456"));
         assertThat(voteB).isNotNull();
         System.out.println("Voted B");
 
@@ -43,7 +46,7 @@ public class WorkerTest extends BaseIntegrationTest {
           .atMost(Duration.ofSeconds(5))
           .untilAsserted(() -> verify(workerJob, atLeast(3)).work());
 
-        Vote voteB2 = keyValueTemplate.insert(new Vote("vote", "789-789", "b", "789-789"));
+        Vote voteB2 = voteKeyValueTemplate.insert(new Vote("vote", "789-789", "b", "789-789"));
         assertThat(voteB2).isNotNull();
         System.out.println("Voted B2");
 
@@ -53,7 +56,7 @@ public class WorkerTest extends BaseIntegrationTest {
         
         Thread.sleep(5000);
 
-		Optional<Results> resultsOptional = keyValueTemplate.findById("results", Results.class);
+		    Optional<Results> resultsOptional = resultsKeyValueTemplate.findById("results", Results.class);
         assertThat(resultsOptional.isPresent()).isTrue();
 
         Results results = resultsOptional.get();
