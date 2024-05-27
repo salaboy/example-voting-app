@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: user-container
-        image: docker.io/salaboy/worker-java:1.0.0
+        image: docker.io/salaboy/worker-java:1.0.0-amd
         imagePullPolicy: Always
         env:
         - name: test
@@ -26,12 +26,12 @@ spec:
           value: http://worker-dapr.default.svc.cluster.local:50001
         - name: BASE_URL
           value: http://worker-dapr.default.svc.cluster.local
-        - name: VOTES_STATESTORE_NAME
+        - name: WORKER_VOTE_STATESTORE
           value: votes-statestore
-        - name: RESULTS_STATESTORE_NAME
+        - name: WORKER_RESULTS_STATESTORE 
           value: results-statestore
-        - name: DAPR_QUERY_INDEXNAME
-          value: voteIndex  
+        - name: WORKER_VOTE_QUERYINDEX
+          value: voteIndex   
         readinessProbe:
           exec:
             command:
