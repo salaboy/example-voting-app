@@ -12,7 +12,7 @@ spec:
         autoscaling.knative.dev/min-scale: "1"
     spec:
       containers:
-      - image: docker.io/salaboy/echo-java:1.0.0
+      - image: docker.io/salaboy/echo-java:1.0.0-amd
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -24,4 +24,4 @@ spec:
         - name: DAPR_GRPC_ENDPOINT
           value: http://echo-dapr.default.svc.cluster.local:50001  
         - name: ECHO_STATE_STORE
-          value: votes-statestore
+          value: votes-statestore 
