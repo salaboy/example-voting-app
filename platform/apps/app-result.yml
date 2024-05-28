@@ -13,7 +13,7 @@ spec:
       - image: docker.io/salaboy/result-java:1.0.0-amd
         imagePullPolicy: Always
         ports:
-        - containerPort: 3000
+        - containerPort: 8080
         env:
         - name: DAPR_HTTP_ENDPOINT
           value: http://result-dapr.default.svc.cluster.local:3500
