@@ -5,9 +5,16 @@ console.log("Location Host: " + location.host);
 var bg1 = document.getElementById("background-stats-1");
 var bg2 = document.getElementById("background-stats-2");
 
+var url = ""
+if (location.protocol === "http"){
+  url = 'ws://'+location.host+'/websocket' 
+}else{
+  url = 'wss://'+location.host+'/websocket' 
+}
+
 app.controller("statsCtrl", function ($scope) {
   const stompClient = new StompJs.Client({
-    brokerURL: 'ws://'+location.host+'/websocket'
+    brokerURL: url
   });
   
   connect();
