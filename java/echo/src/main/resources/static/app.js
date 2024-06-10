@@ -1,47 +1,46 @@
-const stompClient = new StompJs.Client({
-});
-
 const jsConfetti = new JSConfetti()
 var currentWorkflowId;
 var currentIntervalId;
 
+function load() {
 
-function connect() {
+  var url = ""
+  if (location.protocol === "http:") {
+    url = 'ws://' + location.host + '/websocket'
+  } else {
+    url = 'wss://' + location.host + '/websocket'
+  }
 
-  console.log("Fetching Server Info")
-  fetch("/server-info", {
-    method: "GET",
-    headers: {
-      "Content-type": "application/json; charset=UTF-8"
-    }
-  }).then((response) => {
-    console.log("Fetching Response")
-    return response.json();
-  }).then((response) => {
-    var websocketProtocol = location.protocol === "https:" ? "wss:" : "ws:";
-    var publicURL = websocketProtocol + '//' + response.publicIp + '/ws';
-    stompClient.brokerURL = publicURL;
-    console.log(publicURL);
-    console.log("Activating client")
-    stompClient.activate();
-  }).catch((error) => {
-    console.error(`Could not get server-info: ${error}`);
+  const stompClient = new StompJs.Client({
+    brokerURL: url
   });
-};
 
-stompClient.onConnect = (frame) => {
+  stompClient.activate();
 
-  console.log('Connected: ' + frame);
-  stompClient.subscribe('/topic/events', (event) => {
-    console.log(JSON.parse(event.body));
-    showEvent(JSON.parse(event.body));
+  stompClient.onConnect = (frame) => {
 
-  });
-};
+    console.log('Connected: ' + frame);
+    stompClient.subscribe('/topic/events', (event) => {
+      console.log(JSON.parse(event.body));
+      showEvent(JSON.parse(event.body));
 
-function winnerIsInTheAudience(){
+    });
+  };
+
+  stompClient.onWebSocketError = (error) => {
+    console.error('Error with websocket', error);
+  };
+  
+  stompClient.onStompError = (frame) => {
+    console.error('Broker reported error: ' + frame.headers['message']);
+    console.error('Additional details: ' + frame.body);
+  };
+}
+
+
+function winnerIsInTheAudience() {
   console.log("The Winner is in the audience!!");
-  const response = fetch("/yes-winner-in-audience?workflowId="+currentWorkflowId, {
+  const response = fetch("/yes-winner-in-audience?workflowId=" + currentWorkflowId, {
     method: "POST",
     headers: {
       "Content-type": "application/json; charset=UTF-8"
@@ -49,29 +48,29 @@ function winnerIsInTheAudience(){
   })
   document.getElementById("winnerIsInTheAudience").innerHTML = "<h2>The Winner is in the Audience 🥳👍 <h2>";
   document.getElementById("winnerGotTheBook").innerHTML = "<h2>Did the Winner got the Book?<h2>";
-  
+
 }
 
-function getWorkflowStatus(workflowId){
-  const fetchPromise =  fetch("/status?workflowId="+currentWorkflowId, {
+function getWorkflowStatus(workflowId) {
+  const fetchPromise = fetch("/status?workflowId=" + currentWorkflowId, {
     method: "GET",
     headers: {
       "Content-type": "application/json; charset=UTF-8"
     }
   });
   fetchPromise.then(response => response.json())
-      .then(data => {
-        console.log("Winner: " + data.winner);
-        winner();
-        document.getElementById("winner").innerHTML = "<h1> Winner: <b>" + data.winner + "</b><h1>";
-        document.getElementById("winnerIsInTheAudience").innerHTML = "<h2>Is the Winner In the Audience??<h2>";
-        document.getElementById("winnerGotTheBook").innerHTML = "";
-  });
+    .then(data => {
+      console.log("Winner: " + data.winner);
+      winner();
+      document.getElementById("winner").innerHTML = "<h1> Winner: <b>" + data.winner + "</b><h1>";
+      document.getElementById("winnerIsInTheAudience").innerHTML = "<h2>Is the Winner In the Audience??<h2>";
+      document.getElementById("winnerGotTheBook").innerHTML = "";
+    });
 }
 
-function winnerGotTheBook(){
+function winnerGotTheBook() {
   console.log("The Winner got the Book!!");
-  const response = fetch("/yes-winner-got-book?workflowId="+currentWorkflowId, {
+  const response = fetch("/yes-winner-got-book?workflowId=" + currentWorkflowId, {
     method: "POST",
     headers: {
       "Content-type": "application/json; charset=UTF-8"
@@ -80,29 +79,29 @@ function winnerGotTheBook(){
   document.getElementById("winnerGotTheBook").innerHTML = "<h2>The Winner got the Book! Congrats! 📚<h2>";
 }
 
-function waitForWinner(){
-  const currentIntervalId = setInterval(() => { 
-    
-    getWorkflowStatus(currentWorkflowId); 
-    console.log("fetching winner for workflow Id = "+ currentWorkflowId);
-    if(document.getElementById("winner").innerHTML != ""){
-         console.log("we got a winner!");
-         clearInterval(currentIntervalId);
+function waitForWinner() {
+  const currentIntervalId = setInterval(() => {
+
+    getWorkflowStatus(currentWorkflowId);
+    console.log("fetching winner for workflow Id = " + currentWorkflowId);
+    if (document.getElementById("winner").innerHTML != "") {
+      console.log("we got a winner!");
+      clearInterval(currentIntervalId);
     }
   }, 4000);
-  
+
 }
 
 
-function clean(){
+function clean() {
   document.getElementById("winner").innerHTML = "";
   document.getElementById("winnerIsInTheAudience").innerHTML = "";
   document.getElementById("winnerGotTheBook").innerHTML = "";
 }
-function pickADogWinner(){
+function pickADogWinner() {
   clean();
   console.log("Let's pick a DOG winner!");
-  const fetchPromise =  fetch("/pick-a-winner?option=a", {
+  const fetchPromise = fetch("/pick-a-winner?option=a", {
     method: "POST",
     headers: {
       "Content-type": "application/json; charset=UTF-8"
@@ -110,14 +109,14 @@ function pickADogWinner(){
   });
   drumRoll();
   fetchPromise.then(response => response.text())
-      .then(data => {
-        console.log("Workflow Id: " + data);
-        currentWorkflowId = data;
-        waitForWinner();
-  });
+    .then(data => {
+      console.log("Workflow Id: " + data);
+      currentWorkflowId = data;
+      waitForWinner();
+    });
 }
 
-function pickACatWinner(){
+function pickACatWinner() {
   clean();
   console.log("Let's pick a CAT winner!");
   const fetchPromise = fetch("/pick-a-winner?option=b", {
@@ -128,14 +127,14 @@ function pickACatWinner(){
   })
   drumRoll();
   fetchPromise.then(response => response.text())
-      .then(data => {
-        console.log("Workflow Id: " + data);
-        currentWorkflowId = data;
-        waitForWinner();
-  });
+    .then(data => {
+      console.log("Workflow Id: " + data);
+      currentWorkflowId = data;
+      waitForWinner();
+    });
 }
 
-function cats(){
+function cats() {
   jsConfetti.addConfetti({
     emojis: ['😺'],
     emojiSize: 100,
@@ -143,7 +142,7 @@ function cats(){
   })
 }
 
-function winner(){
+function winner() {
   jsConfetti.addConfetti({
     emojis: ['🥳'],
     emojiSize: 200,
@@ -151,7 +150,7 @@ function winner(){
   })
 }
 
-function drumRoll(){
+function drumRoll() {
   jsConfetti.addConfetti({
     emojis: ['🥁'],
     emojiSize: 200,
@@ -159,7 +158,7 @@ function drumRoll(){
   })
 }
 
-function dogs(){
+function dogs() {
   jsConfetti.addConfetti({
     emojis: ['🐶'],
     emojiSize: 100,
@@ -181,13 +180,6 @@ function showEvent(event) {
 
 
 
-stompClient.onWebSocketError = (error) => {
-  console.error('Error with websocket', error);
-};
 
-stompClient.onStompError = (frame) => {
-  console.error('Broker reported error: ' + frame.headers['message']);
-  console.error('Additional details: ' + frame.body);
-};
 
 

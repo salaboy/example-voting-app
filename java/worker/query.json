@@ -1,0 +1,6 @@
+{
+    "filter": {
+        "EQ": { "type": "vote" }
+    }
+    
+}

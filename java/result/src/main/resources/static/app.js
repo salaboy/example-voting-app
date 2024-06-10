@@ -6,7 +6,7 @@ var bg1 = document.getElementById("background-stats-1");
 var bg2 = document.getElementById("background-stats-2");
 
 var url = ""
-if (location.protocol === "http"){
+if (location.protocol === "http:"){
   url = 'ws://'+location.host+'/websocket' 
 }else{
   url = 'wss://'+location.host+'/websocket' 

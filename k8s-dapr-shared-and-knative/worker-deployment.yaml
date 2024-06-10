@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: user-container
-        image: salaboy/worker-java:1.0.0
+        image: salaboy/worker-java:1.0.0-amd
         imagePullPolicy: Always
         env:
         - name: DAPR_HTTP_ENDPOINT

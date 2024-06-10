@@ -110,6 +110,14 @@ func query() {
 			panic(err)
 		}
 
+		// metadata, err := daprClient.GetMetadata(ctx);
+		// for _, c := range metadata.RegisteredComponents {
+		// 	c.Capabilities
+		// 	c.Name,
+		// 	c.Type,
+
+		// }
+
 		err = daprClient.SaveState(ctx, STATESTORE_VOTES_NAME, "results", jsonDataResult, map[string]string{
 			"contentType": "application/json",
 		})

@@ -40,13 +40,9 @@ public class EchoApplication {
 }
 
 @RestController
-@RequestMapping()
 class EchoController {
 
 	private static final Logger logger = LoggerFactory.getLogger(EchoController.class);
-
-	@Value("${PUBLIC_IP:localhost}")
-	private String publicIp;
 
 	private final SimpMessagingTemplate simpMessagingTemplate;
 
@@ -56,7 +52,7 @@ class EchoController {
     public final static String topicName = "newVote";
 
 	@Topic(name = topicName, pubsubName = pubSubName)
-	@PostMapping("events")
+	@PostMapping("/events")
 	public CloudEvent echo(@RequestBody CloudEvent cloudEvent) {
 
 		logger.info("Echo CloudEvent: " + cloudEvent.toString());
@@ -71,11 +67,6 @@ class EchoController {
 
 	}
 
-
-	@GetMapping("/server-info")
-	public Info getInfo() {
-		return new Info(publicIp);
-	}
 
 	@PostMapping("/pick-a-winner")
 	public String pickAWinner(@RequestParam("option") String option) {
@@ -100,9 +91,6 @@ class EchoController {
 	@GetMapping("/status")
 	public WorkflowPayload getWorkflowStatus(@RequestParam("workflowId") String workflowId){
 		return EchoApplication.instancePayloads.get(workflowId);
-	}
-
-	public record Info(String publicIp) {
 	}
 
 	private void emitWSEvent(CloudEvent event) {

@@ -27,8 +27,10 @@ public class WorkerJob {
 	public void work() {
 		System.out.println("Fetching votes..");
 
+		//http ":3500/v1.0-alpha1/state/votes-statestore/query?metadata.contentType=application/json&metadata.queryIndexName=voteIndex" < query.json 
 		KeyValueQuery<String> keyValueQuery = new KeyValueQuery<String>("'type' == 'vote'");
-
+		keyValueQuery.setRows(1000);
+		keyValueQuery.setOffset(0);
 		Iterable<Vote> votes = voteKeyValueTemplate.find(keyValueQuery, Vote.class);
 
 		int optionA = 0;
