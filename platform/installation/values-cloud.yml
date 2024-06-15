@@ -10,7 +10,7 @@ platform:
     - metrics-server
   
   ingress:
-    domain: cloud.thomasvitale.dev
+    domain: vote.demo.diagrid.io
     issuer:
       type: letsencrypt
       email: security@kadras.io
