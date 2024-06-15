@@ -118,7 +118,7 @@ spec:
         paths:
           temp_data_lifetime: 1h
         server:
-          domain: grafana.cloud.thomasvitale.dev
+          domain: grafana.vote.demo.diagrid.io
           enable_gzip: true
         snapshots:
           enabled: false
@@ -135,7 +135,7 @@ spec:
         tls:
           - secretName: grafana-tls-certificate
             hosts:
-              - grafana.cloud.thomasvitale.dev
+              - grafana.vote.demo.diagrid.io
       persistence:
         enabled: false
       # See: https://github.com/grafana/helm-charts/issues/1746
