@@ -9,8 +9,6 @@ spec:
       containers:
       - image: ghcr.io/salaboy/echo-java
         env: 
-        - name: PUBLIC_IP
-          value: echo.default.cloud.thomasvitale.dev
         - name: DAPR_HTTP_ENDPOINT
           value: http://echo-dapr.default.svc.cluster.local:3500
         - name: DAPR_GRPC_ENDPOINT
