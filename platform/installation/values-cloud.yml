@@ -10,7 +10,7 @@ platform:
     - metrics-server
   
   ingress:
-    domain: vote.demo.diagrid.io
+    domain: demo.diagrid.dev
     issuer:
       type: letsencrypt
       email: security@kadras.io
