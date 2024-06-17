@@ -7,7 +7,7 @@ spec:
   template:
     spec:
       containers:
-      - image: ghcr.io/salaboy/echo-java
+      - image: docker.io/salaboy/echo-java:1.0.0-amd
         env: 
         - name: DAPR_HTTP_ENDPOINT
           value: http://echo-dapr.default.svc.cluster.local:3500
