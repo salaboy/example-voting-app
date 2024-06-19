@@ -11,5 +11,5 @@ spec:
   - name: keyPrefix
     value: name 
   - name: connectionString
-    value: "host=postgres user=postgres password=postgres port=5432 connect_timeout=10"
+    value: "host=postgres.default.svc.cluster.local user=postgres password=postgres port=5432 connect_timeout=10"
   
