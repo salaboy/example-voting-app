@@ -19,10 +19,10 @@ spec:
         ports:
         - containerPort: 8080
         env:
-        - name: DAPR_HTTP_ENDPOINT
-          value: http://vote-dapr.default.svc.cluster.local:3500
-        - name: DAPR_GRPC_ENDPOINT
-          value: http://vote-dapr.default.svc.cluster.local:50001 
+        # - name: DAPR_HTTP_ENDPOINT
+        #   value: http://vote-dapr.default.svc.cluster.local:3500
+        # - name: DAPR_GRPC_ENDPOINT
+        #   value: http://vote-dapr.default.svc.cluster.local:50001 
         - name: DAPR_STATESTORE_NAME
           value: votes-statestore
         - name: DAPR_PUBSUB_NAME
