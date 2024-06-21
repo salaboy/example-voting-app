@@ -10,6 +10,10 @@ spec:
       app: worker
   template:
     metadata:
+      annotations: 
+        dapr.io/app-id: worker
+        dapr.io/enabled: "true"
+        dapr.io/log-level: "debug"
       labels:
         app: worker
     spec:

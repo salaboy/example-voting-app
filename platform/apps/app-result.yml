@@ -8,6 +8,9 @@ spec:
     metadata:
       annotations:
         autoscaling.knative.dev/min-scale: "1"
+        dapr.io/app-id: result
+        dapr.io/enabled: "true"
+        dapr.io/log-level: "debug"
     spec:
       containers:
       - image: docker.io/salaboy/result-java:1.0.0-amd
