@@ -12,7 +12,7 @@ spec:
         dapr.io/app-id: vote
         dapr.io/enabled: "true"
         dapr.io/log-level: "debug"
-        dapr.io/metrics-port: 9091
+        dapr.io/metrics-port: "9091"
     spec:
       containers:
       - image: docker.io/salaboy/vote-java:1.0.0-amd
