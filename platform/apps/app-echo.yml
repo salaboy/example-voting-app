@@ -13,7 +13,7 @@ spec:
         dapr.io/app-id: echo
         dapr.io/enabled: "true"
         dapr.io/log-level: "debug"
-        dapr.io/metrics-port: "9091"
+        dapr.io/metrics-port: "9092"
     spec:
       containers:
       - image: docker.io/salaboy/echo-java:1.0.0-amd
