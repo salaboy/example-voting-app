@@ -38,4 +38,6 @@ spec:
               name: echo-secret
               key: token
         - name: ECHO_STATE_STORE
-          value: votes-statestore 
+          value: kvstore
+        # - name: ECHO_STATE_STORE
+        #   value: votes-statestore 

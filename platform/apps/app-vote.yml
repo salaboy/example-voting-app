@@ -34,12 +34,20 @@ spec:
               name: vote-secret
               key: token
         - name: DAPR_STATESTORE_NAME
-          value: votes-statestore
+          value: kvstore
         - name: DAPR_PUBSUB_NAME
-          value: pubsub-rabbitmq
+          value: pubsub
         - name: DAPR_TOPIC_NAME
           value: newVote
         - name: VOTE_PUBSUB
-          value: pubsub-rabbitmq     
+          value: pubsub
+        # - name: DAPR_STATESTORE_NAME
+        #   value: votes-statestore
+        # - name: DAPR_PUBSUB_NAME
+        #   value: pubsub-rabbitmq
+        # - name: DAPR_TOPIC_NAME
+        #   value: newVote
+        # - name: VOTE_PUBSUB
+        #   value: pubsub-rabbitmq     
         - name: VOTE_TOPIC
           value: newVote

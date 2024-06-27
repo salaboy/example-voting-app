@@ -32,5 +32,7 @@ spec:
             secretKeyRef: 
               name: result-secret
               key: token
+        # - name: DAPR_STATESTORE_NAME
+        #   value: results-statestore
         - name: DAPR_STATESTORE_NAME
-          value: results-statestore
+          value: kvstore  

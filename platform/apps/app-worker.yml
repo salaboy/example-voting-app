@@ -37,9 +37,13 @@ spec:
               key: token
         - name: BASE_URL
           value: http://worker-dapr.default.svc.cluster.local
+        # - name: WORKER_VOTE_STATESTORE
+        #   value: votes-statestore
+        # - name: WORKER_RESULTS_STATESTORE 
+        #   value: results-statestore  
         - name: WORKER_VOTE_STATESTORE
-          value: votes-statestore
+          value: kvstore
         - name: WORKER_RESULTS_STATESTORE 
-          value: results-statestore
+          value: kvstore
         - name: WORKER_VOTE_QUERYINDEX
           value: voteIndex   
