@@ -1,18 +1,29 @@
-# apiVersion: serving.knative.dev/v1
-# kind: Service
-# metadata:
-#   name: echo
-#   namespace: default
-# spec:
-#   template:
-#     spec:
-#       containers:
-#       - image: docker.io/salaboy/echo-java:1.0.0-amd
-#         env: 
-#         # - name: DAPR_HTTP_ENDPOINT
-#         #   value: http://echo-dapr.default.svc.cluster.local:3500
-#         # - name: DAPR_GRPC_ENDPOINT
-#         #   value: http://echo-dapr.default.svc.cluster.local:50001
-#         - name: ECHO_STATE_STORE
-#           value: votes-statestore
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: echo
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+      - image: docker.io/salaboy/echo-java:1.0.0-amd
+        env: 
+        # - name: DAPR_HTTP_ENDPOINT
+        #   value: http://echo-dapr.default.svc.cluster.local:3500
+        # - name: DAPR_GRPC_ENDPOINT
+        #   value: http://echo-dapr.default.svc.cluster.local:50001
+        # - name: ECHO_STATE_STORE
+        #   value: votes-statestore
+        - name: DAPR_HTTP_ENDPOINT
+          value: "https://http-prj11702.api.cloud.diagrid.io"
+        - name: DAPR_GRPC_ENDPOINT
+          value: "https://grpc-prj11702.api.cloud.diagrid.io"
+        - name: DAPR_API_TOKEN
+          valueFrom: 
+            secretKeyRef: 
+              name: echo-secret
+              key: token
+        - name: ECHO_STATE_STORE
+          value: kvstore
 
