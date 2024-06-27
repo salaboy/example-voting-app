@@ -9,10 +9,10 @@ spec:
       annotations:
         autoscaling.knative.dev/min-scale: "1"
         autoscaling.knative.dev/target: "10"
-        dapr.io/app-id: vote
-        dapr.io/enabled: "true"
-        dapr.io/log-level: "debug"
-        dapr.io/metrics-port: "9092"
+        # dapr.io/app-id: vote
+        # dapr.io/enabled: "true"
+        # dapr.io/log-level: "debug"
+        # dapr.io/metrics-port: "9092"
     spec:
       containers:
       - image: docker.io/salaboy/vote-java:1.0.0-amd
