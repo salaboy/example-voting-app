@@ -1,7 +1,7 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: echo
+  name: echo-1
   namespace: default
   annotations: 
     networking.knative.dev/http-protocol: "enabled"
