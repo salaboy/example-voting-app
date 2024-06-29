@@ -11,9 +11,9 @@ spec:
   template:
     metadata:
       annotations: 
-        # dapr.io/app-id: worker
-        # dapr.io/enabled: "true"
-        # dapr.io/log-level: "debug"
+        dapr.io/app-id: worker
+        dapr.io/enabled: "true"
+        dapr.io/log-level: "debug"
       labels:
         app: worker
     spec:
@@ -26,24 +26,24 @@ spec:
         #   value: http://worker-dapr.default.svc.cluster.local:3500
         # - name: DAPR_GRPC_ENDPOINT
         #   value: http://worker-dapr.default.svc.cluster.local:50001
-        - name: DAPR_HTTP_ENDPOINT
-          value: "https://http-prj11702.api.cloud.diagrid.io"
-        - name: DAPR_GRPC_ENDPOINT
-          value: "https://grpc-prj11702.api.cloud.diagrid.io"
-        - name: DAPR_API_TOKEN
-          valueFrom: 
-            secretKeyRef: 
-              name: worker-secret
-              key: token
+        # - name: DAPR_HTTP_ENDPOINT
+        #   value: "https://http-prj11702.api.cloud.diagrid.io"
+        # - name: DAPR_GRPC_ENDPOINT
+        #   value: "https://grpc-prj11702.api.cloud.diagrid.io"
+        # - name: DAPR_API_TOKEN
+        #   valueFrom: 
+        #     secretKeyRef: 
+        #       name: worker-secret
+        #       key: token
         - name: BASE_URL
           value: http://worker-dapr.default.svc.cluster.local
-        # - name: WORKER_VOTE_STATESTORE
-        #   value: votes-statestore
-        # - name: WORKER_RESULTS_STATESTORE 
-        #   value: results-statestore  
         - name: WORKER_VOTE_STATESTORE
-          value: kvstore
+          value: votes-statestore
         - name: WORKER_RESULTS_STATESTORE 
-          value: kvstore
+          value: results-statestore  
+        # - name: WORKER_VOTE_STATESTORE
+        #   value: kvstore
+        # - name: WORKER_RESULTS_STATESTORE 
+        #   value: kvstore
         - name: WORKER_VOTE_QUERYINDEX
           value: voteIndex   

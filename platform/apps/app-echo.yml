@@ -10,11 +10,11 @@ spec:
     metadata:
       annotations:
         autoscaling.knative.dev/min-scale: "1"
-        # dapr.io/app-id: echo
-        # dapr.io/enabled: "true"
-        # dapr.io/log-level: "debug"
-        # dapr.io/metrics-port: "9092"
-        # dapr.io/app-port: "8080"
+        dapr.io/app-id: echo
+        dapr.io/enabled: "true"
+        dapr.io/log-level: "debug"
+        dapr.io/metrics-port: "9092"
+        dapr.io/app-port: "8080"
     spec:
       containers:
       - image: docker.io/salaboy/echo-java:1.0.0-amd
@@ -28,16 +28,16 @@ spec:
         #   value: http://echo-dapr.default.svc.cluster.local:3500
         # - name: DAPR_GRPC_ENDPOINT
         #   value: http://echo-dapr.default.svc.cluster.local:50001  
-        - name: DAPR_HTTP_ENDPOINT
-          value: "https://http-prj11702.api.cloud.diagrid.io"
-        - name: DAPR_GRPC_ENDPOINT
-          value: "https://grpc-prj11702.api.cloud.diagrid.io"
-        - name: DAPR_API_TOKEN
-          valueFrom: 
-            secretKeyRef: 
-              name: echo-secret
-              key: token
-        - name: ECHO_STATE_STORE
-          value: kvstore
+        # - name: DAPR_HTTP_ENDPOINT
+        #   value: "https://http-prj11702.api.cloud.diagrid.io"
+        # - name: DAPR_GRPC_ENDPOINT
+        #   value: "https://grpc-prj11702.api.cloud.diagrid.io"
+        # - name: DAPR_API_TOKEN
+        #   valueFrom: 
+        #     secretKeyRef: 
+        #       name: echo-secret
+        #       key: token
         # - name: ECHO_STATE_STORE
-        #   value: votes-statestore 
+        #   value: kvstore
+        - name: ECHO_STATE_STORE
+          value: votes-statestore 
