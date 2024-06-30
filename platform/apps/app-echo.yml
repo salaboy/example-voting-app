@@ -17,7 +17,7 @@ spec:
         dapr.io/app-port: "8080"
     spec:
       containers:
-      - image: docker.io/salaboy/echo-java:1.0.0-amd
+      - image: ghcr.io/thomasvitale/echo-java
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
