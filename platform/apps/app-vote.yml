@@ -15,7 +15,7 @@ spec:
         dapr.io/metrics-port: "9092"
     spec:
       containers:
-      - image: ghcr.io/thomasvitale/vote-java
+      - image: docker.io/salaboy/vote-java:1.0.0-amd
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

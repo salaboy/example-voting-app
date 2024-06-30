@@ -14,7 +14,7 @@ spec:
         dapr.io/metrics-port: "9092"
     spec:
       containers:
-      - image: ghcr.io/thomasvitale/result-java
+      - image: docker.io/salaboy/result-java:1.0.0-amd
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
